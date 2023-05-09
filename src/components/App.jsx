@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import { RenderForms } from './ContactForm';
+import { RenderForms } from './RenderForms';
 export class App extends Component {
   state = {
     contacts: [
