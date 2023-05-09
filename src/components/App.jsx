@@ -1,7 +1,5 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
-import { renderForms } from './ContactForm';
 export class App extends Component {
   state = {
     contacts: [
@@ -14,19 +12,22 @@ export class App extends Component {
     filter: '',
     number: '',
   };
+
+
+
   filterContactsByName = () => {
     return this.state.contacts.filter((contact) =>
       contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
     );
   };
 
-updateName = evt => {
-  this.setState({ name: evt.target.value })
-}
+// updateName = evt => {
+//   this.setState({ name: evt.target.value })
+// }
 
-updateNum = evt => {
-  this.setState({ number: evt.target.value })
-}
+// updateNum = evt => {
+//   this.setState({ number: evt.target.value })
+// }
 
   updateState = evt => {
     evt.preventDefault();
@@ -52,29 +53,7 @@ updateNum = evt => {
         }}
       >
         
-<renderForms funcname={this.updateName} nametg={this.state.name} funcnum={this.updateNum} numtg={this.state.number} funcupdate={this.updateState}></renderForms>
-
-        <h2>Contacts</h2>
-        <h3>Find Contacts by Name</h3>
-        <input type="text" 
-        value={this.state.filter}
-        onChange={evt => this.setState({filter:evt.target.value})}
-/>
-        <ul>
-  {this.filterContactsByName().map((contact) => (
-    <li key={contact.id}>
-      {contact.name}: {contact.number}
-    </li>
-  ))}
-        </ul>
-      </div>
-    );
-  }
-}
-
-
-
-/* <form>
+        <form>
           <h1>PhoneBook</h1>
           <h2>Name</h2>
           <input
@@ -96,4 +75,22 @@ updateNum = evt => {
             required
           />
           <button onClick={this.updateState}>Add</button>
-        </form> */
+        </form> 
+
+        <h2>Contacts</h2>
+        <h3>Find Contacts by Name</h3>
+        <input type="text" 
+        value={this.state.filter}
+        onChange={evt => this.setState({filter:evt.target.value})}
+/>
+        <ul>
+  {this.filterContactsByName().map((contact) => (
+    <li key={contact.id}>
+      {contact.name}: {contact.number}
+    </li>
+  ))}
+        </ul>
+      </div>
+    );
+  }
+}
