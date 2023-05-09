@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { RenderForms } from './RenderForms';
+import { RenderSearch } from './RenderSearch';
+import { RenderList } from './RenderLists';
 export class App extends Component {
   state = {
     contacts: [
@@ -14,29 +16,41 @@ export class App extends Component {
     number: '',
   };
   filterContactsByName = () => {
-    return this.state.contacts.filter((contact) =>
+    return this.state.contacts.filter(contact =>
       contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
     );
   };
 
-updateName = evt => {
-  this.setState({ name: evt.target.value })
-}
+  updateName = evt => {
+    this.setState({ name: evt.target.value });
+  };
 
-updateNum = evt => {
-  this.setState({ number: evt.target.value })
-}
+  updateNum = evt => {
+    this.setState({ number: evt.target.value });
+  };
+  searchFiltr = evt => {
+    this.setState({ filter: evt.target.value });
+  };
+
+
+
+  deleteContact = (id) => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
 
   updateState = evt => {
     evt.preventDefault();
     const { name, number } = this.state;
-    const newContact = { id: nanoid(), name, number };
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-      name: '',
-      filter: '',
-      number: '',
-    }));
+    const isNameAlreadyExists = this.state.contacts.some(contact => contact.name === name);
+    isNameAlreadyExists ? alert('Таке імья вже існує') : 
+  this.setState(prevState => ({
+    contacts: [...prevState.contacts, { id: nanoid(), name, number }],
+    name: '',
+    filter: '',
+    number: '',
+  }));
   };
   render() {
     return (
@@ -50,22 +64,21 @@ updateNum = evt => {
           color: '#010101',
         }}
       >
-        
-<RenderForms funcname={this.updateName} nametg={this.state.name} funcnum={this.updateNum} numtg={this.state.number} funcupdate={this.updateState}></RenderForms>
+        <RenderForms
+          funcname={this.updateName}
+          nametg={this.state.name}
+          funcnum={this.updateNum}
+          numtg={this.state.number}
+          funcupdate={this.updateState}
+        ></RenderForms>
 
         <h2>Contacts</h2>
         <h3>Find Contacts by Name</h3>
-        <input type="text" 
-        value={this.state.filter}
-        onChange={evt => this.setState({filter:evt.target.value})}
-/>
-        <ul>
-  {this.filterContactsByName().map((contact) => (
-    <li key={contact.id}>
-      {contact.name}: {contact.number}
-    </li>
-  ))}
-        </ul>
+        <RenderSearch
+          filtertg={this.state.filter}
+          funcfiltr={this.searchFiltr}
+        ></RenderSearch>
+        <RenderList funcArr={this.filterContactsByName} funcDel={this.deleteContact}></RenderList>
       </div>
     );
   }
