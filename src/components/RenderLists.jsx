@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types';
-export const RenderList = ({ funcArr,funcDel }) => {
+import { RendLi } from './RendLi';
+export const ContactList = ({ funcArr, funcDel }) => {
   return (
     <ul>
       {funcArr().map(contact => (
-        <li key={contact.id}>
-          {contact.name}: {contact.number}
-          <button data-del={contact.id} onClick={() => funcDel(contact.id)}>DEL</button>
-        </li>
+        <RendLi
+          id={contact.id}
+          name={contact.name}
+          number={contact.number}
+          fcDel={funcDel}
+        />
       ))}
     </ul>
   );
 };
-RenderList.propTypes = {
+ContactList.propTypes = {
   funcArr: PropTypes.func.isRequired,
-  funcDel: PropTypes.func.isRequired
+  funcDel: PropTypes.func.isRequired,
 };

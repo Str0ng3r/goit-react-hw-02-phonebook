@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-export const RenderSearch = ({ filtertg, funcfiltr }) => {
+export const Filter = ({ filtertg, funcfiltr }) => {
   return <input type="text" value={filtertg} onChange={funcfiltr} />;
 };
-RenderSearch.propTypes = {
+Filter.propTypes = {
   filtertg: PropTypes.string.isRequired,
   funcfiltr: PropTypes.func.isRequired,
 };
