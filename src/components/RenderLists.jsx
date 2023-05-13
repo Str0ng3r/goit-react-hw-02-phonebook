@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 import { RendLi } from './RendLi';
-export const ContactList = ({ funcArr, funcDel }) => {
+
+export const ContactList = ({funcDel}) => {
+  const savedContacts = JSON.parse(
+    localStorage.getItem('contactsLocale')
+  );
   return (
     <ul>
-      {funcArr().map(contact => (
+      {savedContacts.map(contact => (
         <RendLi
+          key={contact.id} // добавляем ключ
           id={contact.id}
           name={contact.name}
           number={contact.number}
@@ -14,7 +19,7 @@ export const ContactList = ({ funcArr, funcDel }) => {
     </ul>
   );
 };
+
 ContactList.propTypes = {
-  funcArr: PropTypes.func.isRequired,
   funcDel: PropTypes.func.isRequired,
 };

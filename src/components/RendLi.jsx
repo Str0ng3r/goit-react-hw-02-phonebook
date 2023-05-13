@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-export const RendLi = ({ id, name, number, fcDel }) => {
+export const RendLi = ({ id, name, number, fcDel}) => {
   return (
     <li key={id}>
       {name}: {number}

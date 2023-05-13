@@ -6,12 +6,7 @@ import { ContactList } from './RenderLists';
 
 export class App extends Component {
   state = {
-    contacts: [
-{ id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-{ id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-{ id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-{ id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-],
+    contacts: [],
 filter: '',
 };
 
@@ -25,6 +20,9 @@ deleteContact = (id) => {
 this.setState((prevState) => ({
 contacts: prevState.contacts.filter((contact) => contact.id !== id),
 }));
+localStorage.setItem('contactsLocale',JSON.stringify(this.state.contacts));
+const savedContacts = JSON.parse(localStorage.getItem('contactsLocale'));
+console.log(savedContacts)
 };
 
 addContact = (name, number) => {
@@ -41,11 +39,22 @@ const newContact = {
   number,
 };
 
-this.setState((prevState) => ({
-  contacts: [...prevState.contacts, newContact],
-  filter: '',
-}));
-};
+this.setState(
+  (prevState) => ({
+    contacts: [...prevState.contacts, newContact],
+    filter: '',
+  }),
+  () => {
+    localStorage.setItem(
+      'contactsLocale',
+      JSON.stringify(this.state.contacts)
+    );
+    const savedContacts = JSON.parse(
+      localStorage.getItem('contactsLocale')
+    );
+    console.log(savedContacts);
+  }
+);}
 
 searchFilter = (evt) => {
 this.setState({ filter: evt.target.value });
@@ -74,7 +83,7 @@ return (
           filtertg={filter}
           funcfiltr={this.searchFilter}
         ></Filter>
-   <ContactList funcArr={this.filterContactsByName} funcDel={this.deleteContact}></ContactList>
+   <ContactList funcDel={this.deleteContact} ></ContactList>
   </div>
 );
 }
